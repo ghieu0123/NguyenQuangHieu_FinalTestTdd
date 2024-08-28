@@ -29,18 +29,19 @@ public class CustomerController {
     }
 
     @GetMapping("/create")
-    public String create(final Model model){
-        model.addAttribute("newuser", Customer.builder());
+    public String create(final Model model) {
+        model.addAttribute("newCustomer", Customer.builder());
         return "CreateForm";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute Customer customer, final Model model) {
+        boolean check = false;
         Customer tmpUser = customerService.findByEmail(customer.getEmail());
-        if(tmpUser==null)
+        if (tmpUser == null) {
+            check = customerService.save(customer);
+            if (check == true)
                 return "redirect:/";
-        else {
-            model.addAttribute("error", "email_is_in_used");
         }
         return "CreateForm";
     }

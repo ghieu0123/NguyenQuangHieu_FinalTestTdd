@@ -18,8 +18,13 @@ public class CustomerService {
         return customerRepository.getAllCustomer();
     }
 
-    public void save(Customer customer) {
-        customerRepository.createCustomer(customer);
+    public boolean save(Customer customer) {
+        if(customer.getNumber().charAt(0) != 'C')
+            return false;
+        else {
+            customerRepository.createCustomer(customer);
+            return true;
+        }
     }
 
     public Customer findByEmail(String email) {
